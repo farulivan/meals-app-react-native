@@ -10,7 +10,9 @@ const CategoriesScreen = ({ navigation }) => {
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => {
         const pressHandler = () => {
-          navigation.navigate('MealsOverview');
+          navigation.navigate('MealsOverview', {
+            categoryId: item.id,
+          });
         };
         return (
           <CategoryGridTile
