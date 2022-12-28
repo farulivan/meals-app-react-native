@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Image, StyleSheet, Text, View, ScrollView } from 'react-native';
 
 import MealDetails from '../components/MealDetails';
@@ -7,9 +7,13 @@ import List from '../components/MealDetail/List';
 
 import { MEALS } from '../data/dummy-data';
 import IconButton from '../components/IconButton';
+import { FavoriteContext } from '../store/context/favorite-context';
 
 const MealDetailScreen = ({ route, navigation }) => {
+  const favoriteMealsCtx = useContext(FavoriteContext);
+
   const { mealId } = route.params;
+
   const {
     title,
     affordability,
@@ -24,21 +28,27 @@ const MealDetailScreen = ({ route, navigation }) => {
     isLactoseFree,
   } = MEALS.find((meal) => meal.id === mealId);
 
-  const headerButtonPressHandler = () => {
-    console.log('button pressed!');
+  const mealIsFavorite = favoriteMealsCtx.ids.includes(mealId);
+
+  const changeFavoriteStatusHandler = () => {
+    if (mealIsFavorite) {
+      favoriteMealsCtx.removeFavorite(mealId);
+    } else {
+      favoriteMealsCtx.addFavorite(mealId);
+    }
   };
 
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <IconButton
-          icon="star"
+          icon={mealIsFavorite ? 'star' : 'star-outline'}
           color="white"
-          onPress={headerButtonPressHandler}
+          onPress={changeFavoriteStatusHandler}
         />
       ),
     });
-  }, [navigation]);
+  }, [navigation, changeFavoriteStatusHandler]);
 
   return (
     <ScrollView style={styles.mealDetail}>
