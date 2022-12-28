@@ -26,9 +26,7 @@ const TabNavigator = () => {
         component={CategoriesScreen}
         options={{
           title: 'All Categories',
-          tabBarIcon: () => (
-            <Ionicons name="home" color='white' size={22} />
-          ),
+          tabBarIcon: () => <Ionicons name="home" color="white" size={22} />,
           tabBarShowLabel: false,
           tabBarActiveBackgroundColor: '#4A69A8',
           tabBarInactiveBackgroundColor: '#32405C',
@@ -39,9 +37,7 @@ const TabNavigator = () => {
         component={FavoritesScreen}
         options={{
           title: 'Favorites',
-          tabBarIcon: () => (
-            <Ionicons name="star" color='white' size={22} />
-          ),
+          tabBarIcon: () => <Ionicons name="star" color="white" size={22} />,
           tabBarShowLabel: false,
           tabBarActiveBackgroundColor: '#4A69A8',
           tabBarInactiveBackgroundColor: '#32405C',
@@ -72,7 +68,13 @@ export default function App() {
             }}
           />
           <Stack.Screen name="MealsOverview" component={MealsOverviewScreen} />
-          <Stack.Screen name="MealDetail" component={MealDetailScreen} />
+          <Stack.Screen
+            name="MealDetail"
+            component={MealDetailScreen}
+            options={{
+              title: 'Recipe',
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>
