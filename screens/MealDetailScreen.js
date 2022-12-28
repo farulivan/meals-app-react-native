@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Image, StyleSheet, Text, View, ScrollView } from 'react-native';
 
 import MealDetails from '../components/MealDetails';
@@ -6,8 +6,9 @@ import Subtitle from '../components/MealDetail/Subtitle';
 import List from '../components/MealDetail/List';
 
 import { MEALS } from '../data/dummy-data';
+import IconButton from '../components/IconButton';
 
-const MealDetailScreen = ({ route }) => {
+const MealDetailScreen = ({ route, navigation }) => {
   const { mealId } = route.params;
   const {
     title,
@@ -23,6 +24,22 @@ const MealDetailScreen = ({ route }) => {
     isLactoseFree,
   } = MEALS.find((meal) => meal.id === mealId);
 
+  const headerButtonPressHandler = () => {
+    console.log('button pressed!');
+  };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <IconButton
+          icon="star"
+          color="white"
+          onPress={headerButtonPressHandler}
+        />
+      ),
+    });
+  }, [navigation]);
+
   return (
     <ScrollView style={styles.mealDetail}>
       <Image source={{ uri: imageUrl }} style={styles.image} />
@@ -36,9 +53,9 @@ const MealDetailScreen = ({ route }) => {
         />
       </View>
       <Subtitle>Ingredients</Subtitle>
-        <List data={ingredients}/>
+      <List data={ingredients} />
       <Subtitle>Steps</Subtitle>
-        <List data={steps}/>
+      <List data={steps} />
     </ScrollView>
   );
 };
